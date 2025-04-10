@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Prank SMS</title>
+</head>
+<body>
+  <h2>Send Payment Prank</h2>
+  <input type="text" id="number" placeholder="Enter number"><br><br>
+  <textarea id="message" placeholder="Type message (e.g., ₹24 paid via PhonePe)"></textarea><br><br>
+  <button onclick="send()">Send Message</button>
+  <p id="status"></p>
+
+  <script>
+    async function send() {
+      const number = document.getElementById("number").value;
+      const message = document.getElementById("message").value;
+
+      const res = await fetch("/api/send-sms", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ number, message })
+      });
+
+      const data = await res.json();
+      document.getElementById("status").innerText = data.success 
+        ? "Sent successfully!" 
+        : "Failed: " + data.error;
+    }
+  </script>
+</body>
+</html>
